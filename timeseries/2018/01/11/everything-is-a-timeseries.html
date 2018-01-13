@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Everything is a Timeseries</title>
+  <meta name="description" content="The year : 1987 The location : a Strangelove-ian conference room ( although with lots of BIG windows ) overlooking Sixth Avenue The players : me and the Grea...">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="/timeseries/2018/01/11/everything-is-a-timeseries.html">
+  <link rel="alternate" type="application/rss+xml" title="Data Points" href="/feed.xml">
+  
+  
+</head>
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Data Points</a>
+
+    <nav class="site-nav">
+      <span class="menu-icon">
+        <svg viewBox="0 0 18 15" width="18px" height="15px">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </span>
+
+      <div class="trigger">
+        
+          
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Everything is a Timeseries</h1>
+    <p class="post-meta"><time datetime="2018-01-11T00:00:00-05:00" itemprop="datePublished">Jan 11, 2018</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>The year : 1987</p>
+
+<p>The location : a Strangelove-ian conference room ( although with lots of BIG windows ) overlooking Sixth Avenue</p>
+
+<p>The players : me and the Great Man. He is beyond upset : veins are throbbing in both temples and, instead of just being red, his face is blotched with white.</p>
+
+<p>The takeaway : ( paraphrased for those of a delicate nature ) Everything is a Time-series</p>
+
+<p>The time-series schema he was thinking of went something like :</p>
+
+<p><em>A discrete time series is a set of time-ordered data {X<sub>t1</sub>, X<sub>t2</sub>, …,X<sub>tn</sub>} obtained from observations of some phenomenon over time. Throughout this documentation we will assume, as is commonly done, that the observations are made at equally spaced time intervals. This assumption enables us to use the interval between two successive observations as the unit of time and, without any loss of generality, we will denote the time series by {X<sub>1</sub>, X<sub>2</sub>,…X<sub>n</sub>}.</em></p>
+
+<p>Which, depressingly, was taken from a current document, rather than some well-worn, quarter-century old, yellowed papers at the back of one of my desk drawers. Why “ depressingly “ ?</p>
+
+<ol>
+  <li>
+    <p>From www.bea.gov - discussing GDP figures for the US economy, surely one of the most widely used of all publicly-available data values :</p>
+
+    <p><em>The Bureau emphasized that the first-quarter advance estimate released today is based on source data that are incomplete or subject to further revision by the source agency (see the box on page 3 and “Comparisons of Revisions to GDP” on page 5). The “second” estimate for the first quarter, based on more complete data, will be released on May 29, 2015.</em></p>
+
+    <p>And as a special treat :</p>
+
+    <p><em>The annual revision of the national income and product accounts will be released along with the “advance” estimate of GDP for the second quarter of 2015 on July 30. In addition to the regular revision of the estimates for the most recent 3 years and for the first quarter of 2015, some series will be revised back further (for more information, see the Technical Note).</em></p>
+
+    <p>So in this case, not only will the initially published value for 1Q2015 be changed using the current methodology, but it, along with twelve other values, will shortly be recalculated using a new methodology.</p>
+
+    <p>How would your database track these changing values for 1Q2015 ? As exceptions - when each revision as it comes in provokes a fire drill ? Or as a time-series ? - since the X<sub>t</sub> values are already a time-series, it would need a second time dimension, but that would violate the naïve definition of a time-series and lead us into the land of bi-temporal data.</p>
+  </li>
+  <li>
+    <p>In that quarter-century, relational databases have become the <em>de facto</em> standard technology for storing data of all kinds - because the underlying logic is so very flexible that they can, in principle, store and retrieve anything.</p>
+
+    <p>Unfortunately, the original implementations were very crude ( Sitting on one of my bookshelves is a 113 page book from 1978, that includes the complete source code - in RT11 Basic - for a relational database system ) . And later versions went through the usual hype-cycle driven changes rather than addressing real-world problems.</p>
+
+    <p>As a result, the number of shops where data with intrinsic ordering ( like our naïve time-series definition ) can be managed natively, is small. There were brave attempts to “ bolt-on “ time-series handling to mainstream databases in the 1990s, but in my career, I never met one in production use. Guess how much rarer a database that can handle two time dimensions natively going to be ?</p>
+  </li>
+  <li>
+    <p>Most depressing of all, in the job interviews I took part in over that time, no CS graduate had the faintest idea about how to tackle these problems. Sure, they knew how to build a CRUD system, but that was it. In a world where “ everything is a time-series “ none of them had stopped to wonder about the yawning gap between what they had been taught and what they were about to be dealing with. Only after falling into that gap and learning the hard way might a candidate become even potentially useful.</p>
+  </li>
+</ol>
+
+<p>How, you might ask, is an invoice a time-series ? The relationship between a supplier and customer is a time-series of documents, some of them invoices, obviously. But invoices are sent out with errors and have to be corrected, they get cancelled, they get re-negotiated - and that history must be preserved somehow, for the auditors, lawyers, regulators or whoever. It can either be managed as repeated exceptions through a CRUD system, or be managed smoothly through a system that understands that</p>
+
+<p>” EVERYTHING IS BI-TEMPORAL “</p>
+
+
+  </div>
+
+  
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Data Points</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              Data Points
+            
+            </li>
+            
+            <li><a href="mailto:geoffkemmish@mindspring.com">geoffkemmish@mindspring.com</a></li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/geoff-kemmish"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">geoff-kemmish</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Once upon a time, when processor clock speeds were in the kHz, memory modules were woven by hand and storage was on tape, it made sense to use the minimal possible descriptions of our data. Nowadays ? Not so much.   </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
