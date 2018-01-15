@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>About</title>
-  <meta name="description" content="Once upon a time, when processor clock speeds were in the kHz, memory modules were woven by hand and storage was on tape, it made sense to use the minimum fe...">
+  <title>Five 9s</title>
+  <meta name="description" content="Back in the days when dinosaurs - or at least 18-wheelers with “ Prime Computer “ and “ Digital “ painted on their sides - roamed Route 128 and the Mass Pike...">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://localhost:4000/about/">
+  <link rel="canonical" href="http://localhost:4000/errors/2018/01/14/Five-9s.html">
   <link rel="alternate" type="application/rss+xml" title="Data Points" href="/feed.xml">
   
   
@@ -58,37 +58,42 @@
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">About</h1>
+    <h1 class="post-title" itemprop="name headline">Five 9s</h1>
+    <p class="post-meta"><time datetime="2018-01-14T00:00:00-05:00" itemprop="datePublished">Jan 14, 2018</time></p>
   </header>
 
-  <div class="post-content">
-    <p>Once upon a time, when processor clock speeds were in the kHz, memory modules were woven by hand and storage was on tape, it made sense to use the minimum feasible representations for our data. Nowadays ? Not so much.</p>
+  <div class="post-content" itemprop="articleBody">
+    <p>Back in the days when dinosaurs - or at least 18-wheelers with “ Prime Computer “ and “ Digital “ painted on their sides - roamed Route 128 and the Mass Pike, there were attempts to create reliable systems from unreliable components. But minicomputers were too expensive to survive when the PC revolution arrived, and fault-tolerant minicomputers were REALLY expensive.</p>
 
-<p>And yet - despite textbooks that proclaim that data and algorithms are equally important in building useful systems - while we have seen 50 years’ worth of hype and real progress in algorithms, the languages and the tools used to implement them, when it comes to a data item we still get to choose from the restricted palette of <em>short</em>, <em>long</em>, <em>double</em> and so on. Occasions when the discussion turned to whether - for example - a speed should be stored and processed as <em>feet per second</em>, <em>kilometres per hour</em>, or fractions of <em>c</em> have been sufficiently rare that in a half century-long career, I missed them all.</p>
+<p>Whatever approach the system architects adopted, the idea was to deliver something like 99.999% reliability. Which sounds impressive until you realize that this allows five minutes failure in a year - and if those five minutes coincided with the first five minutes of equity trading on an important day, then the fur would fly regardless.</p>
 
-<p>Cases where that discussion should have happened, didn’t and a catastrophic failure followed are newsworthy and everyone gets the chance to point fingers.</p>
+<p>Fast forward a few decades.</p>
 
-<p>The mission of this site, then, is to try to start conversations about richer ways to represent data, and to host some examples of how these might be implemented.</p>
+<p>Hopefully your Data Governance Committee/Board will accept that a quality target of 100% accuracy is out of reach. Offer them a target of 99.999% and the meeting will probably move on happily to the next agenda item.</p>
 
-<p>If you want to join in, get in touch.</p>
+<p>In our world of Big Data that is just not good enough - if your processing uses 100,000,000 data points a day, 99.999% accuracy means 1,000 errors. Even with your Data Quality team working at full speed 24 hours a day, they would need to find and fix one error every minute to clean them up.</p>
 
-<p>Geoff</p>
+<p>And while your annual goals might well include a quality target, when things go wrong that isn’t how you’ll be judged. What will actually count is the effect of an error on the overall result : perhaps a cash flow item with the wrong sign in a quarterly financial report’s data causes you to buy into the shares of a company that declares bankruptcy later that same day. But if the error didn’t change your day’s trading, the existence of that error wouldn’t have mattered even if it had been noticed.</p>
 
-<p>This site is built and maintained using the Minima theme
-  of the Jekyll package</p>
+<p>Catching those problems ahead of time is almost impossible unless you can afford a Space Shuttle-like investment in multiple implementations of the same system. Otherwise, you will have to attack the problem from two directions at the same time  :</p>
 
-<p><a href="https://github.com/jekyll">jekyll</a> /
-  <a href="https://github.com/jekyll/minima">minima</a></p>
+<ol>
+  <li>
+    <p>Understand the data well enough so that you can construct heuristics to find suspicious values in the raw data before it’s used ( for a company that files its results every quarter, that cash flow value should be unchanged for 89 days in a row, so a change at any other time is automatically suspicious ), and</p>
+  </li>
+  <li>
+    <p>Understand your process well enough so that you can construct heuristics to recognize “ unlikely “ data values after they are calculated but before they are used .</p>
+  </li>
+</ol>
 
-<p><a href="https://github.com/jekyll">jekyll</a> /
-  <a href="https://github.com/jekyll/jekyll">jekyll</a></p>
-
+<p>Whatever happens, data errors will always be with you. And the post-mortems will always include the question “ why didn’t you catch it in time ? “</p>
 
   </div>
 
+  
 </article>
 
       </div>
