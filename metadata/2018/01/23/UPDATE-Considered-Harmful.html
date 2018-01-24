@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Five 9s</title>
-  <meta name="description" content="Back in the days when dinosaurs - or at least 18-wheelers with “ Prime Computer “ and “ Digital “ painted on their sides - roamed Route 128 and the Mass Pike...">
+  <title>UPDATE Considered Harmful</title>
+  <meta name="description" content="In 1968, Prof. Dijkstra submitted a letter to the “ Communications of the ACM “ which he titled “ A case against the GOTO statement “. A subeditor - clearly ...">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="/errors/2018/01/14/Five-9s.html">
+  <link rel="canonical" href="/metadata/2018/01/23/UPDATE-Considered-Harmful.html">
   <link rel="alternate" type="application/rss+xml" title="Data Points" href="/feed.xml">
   
   
@@ -61,35 +61,30 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Five 9s</h1>
-    <p class="post-meta"><time datetime="2018-01-14T00:00:00-05:00" itemprop="datePublished">Jan 14, 2018</time></p>
+    <h1 class="post-title" itemprop="name headline">UPDATE Considered Harmful</h1>
+    <p class="post-meta"><time datetime="2018-01-23T00:00:00-05:00" itemprop="datePublished">Jan 23, 2018</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Back in the days when dinosaurs - or at least 18-wheelers with “ Prime Computer “ and “ Digital “ painted on their sides - roamed Route 128 and the Mass Pike, there were attempts to create reliable systems from unreliable components. But minicomputers were too expensive to survive when the PC revolution arrived, and fault-tolerant minicomputers were REALLY expensive.</p>
+    <p>In 1968, Prof. Dijkstra submitted a letter to the “ Communications of the ACM “ which he titled “ A case against the GOTO statement “. A subeditor - clearly destined for greater things - rebranded it “ GOTO Considered Harmful “ and that phrase, quoted and misquoted many times over nearly half a century, has been with us ever since.</p>
 
-<p>Whatever approach the system architects adopted, the idea was to deliver something like 99.999% reliability. Which sounds impressive until you realize that this allows five minutes failure in a year - and if those five minutes coincided with the first five minutes of equity trading on an important day, then the fur would fly regardless.</p>
+<p>It was born in a time when you were expected to prove rigorously that your code would work correctly under all conditions - my initiation to that world was to design and implement a long-division procedure for hardware which supported only integer division. Prof. Dijkstra’s insight was that once you had introduced GOTOs and their corresponding targets into your code, it became exponentially harder to determine the path that program execution might have taken in order to arrive at one of those targets: to determine the history by which a particular program state had been reached.</p>
 
-<p>Fast forward a few decades.</p>
+<p>For most of the intervening half-century database servers have offered us a destructive UPDATE command - to allow us to specify a new value in a database to replace an old one. This, of course, poses exactly the same problem. It does not support the ability to ask the database server how the state of a particular record evolved over time.</p>
 
-<p>Hopefully your Data Governance Committee/Board will accept that a quality target of 100% accuracy is out of reach. Offer them a target of 99.999% and the meeting will probably move on happily to the next agenda item.</p>
+<p>Following their tradition of shipping minimally acceptable products, the database vendors allowed us to see the commands that had operated on a record by interpreting the transaction log - so long as we hadn’t truncated it to save space and keep the database running. Eventually, facilities like SQL Server’s CDC emerged that simplify things greatly - but even so, provide none of the metadata surrounding an update that would be needed for the database to properly distinguish, for example, whether a new value was truly a new value, a revision, or a correction for a mistaken observation of an unchanged value.</p>
 
-<p>In our world of Big Data that is just not good enough - if your processing uses 100,000,000 data points a day, 99.999% accuracy means 1,000 errors. Even with your Data Quality team working at full speed 24 hours a day, they would need to find and fix one error every minute to clean them up.</p>
+<p>The metadata for database changes should reside in the database itself - otherwise it will suffer from the same kind of digital rot as documentation. Even better, the history of a value in a record - metadata and all - should live in the same table as the current value. Rather than holding just an “ int “ value for each record, the table should hold a stack of “ int “ values and their metadata - when was the value entered, by whom, why and so forth.</p>
 
-<p>And while your annual goals might well include a quality target, when things go wrong that isn’t how you’ll be judged. What will actually count is the effect of an error on the overall result : perhaps a cash flow item with the wrong sign in a quarterly financial report’s data causes you to buy into the shares of a company that declares bankruptcy later that same day. But if the error didn’t change your day’s trading, the existence of that error wouldn’t have mattered even if it had been noticed.</p>
+<p>Why is this important ?</p>
 
-<p>Catching those problems ahead of time is almost impossible unless you can afford a Space Shuttle-like investment in multiple implementations of the same system. Otherwise, you will have to attack the problem from two directions at the same time  :</p>
+<p>Because Disruption.</p>
 
-<ol>
-  <li>
-    <p>Understand the data well enough so that you can construct heuristics to find suspicious values in the raw data before it’s used ( for a company that files its results every quarter, that cash flow value should be unchanged for 89 days in a row, so a change at any other time is automatically suspicious ), and</p>
-  </li>
-  <li>
-    <p>Understand your process well enough so that you can construct heuristics to recognize “ unlikely “ data values after they are calculated but before they are used .</p>
-  </li>
-</ol>
+<p>In a competitive business environment, you as a “ data guy “ have no idea where the next challenge to your company’s existing business is going to come from, or the one after that, or the one after that… In that case you had better make sure that you are keeping every scrap of information that you can.</p>
 
-<p>Whatever happens, data errors will always be with you. And the post-mortems will always include the question “ why didn’t you catch it in time ? “</p>
+<p>Otherwise, you’re not working with a database at all, but an application-specific data store - it meets the business’ current needs, but at any moment, with a day or less notice, you’ll have to tear it up, start over and spend a huge amount of effort reconstituting data from spreadsheets or worse. And, it could be argued, you are not fulfilling your fiduciary duty to your employers and their clients.</p>
+
+<p>My thoughts on the DELETE command are left as an exercise for the reader…</p>
 
   </div>
 
